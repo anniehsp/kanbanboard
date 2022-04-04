@@ -2,6 +2,8 @@ import React from 'react';
 import {CssBaseline, Paper, Theme} from "@mui/material";
 import {createStyles, makeStyles} from "@mui/styles";
 import Title from "./Title";
+import Card from "./Card";
+import InputCard from '../Input/InputContainer';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -19,6 +21,13 @@ export default function List() {
             <Paper className={classes.root}>
                 <CssBaseline/>
                 <Title />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <InputCard />
             </Paper>
         </div>
     )
