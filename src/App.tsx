@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import {createStyles, makeStyles} from '@mui/styles';
-import {Theme} from '@mui/material';
-import {v4 as uuid} from 'uuid';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material';
+import { v4 as uuid } from 'uuid';
 
 import List from './components/List/List';
 import InputCard from './components/Input/InputContainer';
