@@ -13,20 +13,23 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-export default function List() {
+interface Props {
+    list: any;
+}
+
+export default function List({ list }: Props) {
     const classes = useStyles();
 
     return (
         <div>
             <Paper className={classes.root}>
                 <CssBaseline/>
-                <Title />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                <Title title={list.title} />
+                {
+                    list.cards.map((card: any) => (
+                        <Card card={card} key={card.id} />
+                    ))
+                }
                 <InputCard />
             </Paper>
         </div>

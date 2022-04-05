@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-export default function Title() {
+interface Props {
+    title: string;
+}
+
+export default function Title({ title }: Props) {
     const [open, setOpen] = useState<boolean>(false);
 
     const classes = useStyles();
@@ -35,12 +39,12 @@ export default function Title() {
                         <div>
                             <InputBase
                                 autoFocus
-                                value="Todo"
                                 inputProps={{
                                     className: classes.input,
                                 }}
                                 fullWidth
                                 onBlur={() => setOpen(!open)}
+                                value={title}
                             />
                         </div>
                     ) : (
@@ -49,7 +53,7 @@ export default function Title() {
                                 onClick={() => setOpen(!open)}
                                 className={classes.editableTitle}
                             >
-                                Todo
+                                {title ? title : ''}
                             </Typography>
                             <MoreHoriz />
                         </div>

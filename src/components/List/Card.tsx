@@ -9,12 +9,16 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-export default function Card() {
+interface Props {
+    card: any;
+}
+
+export default function Card({ card }: Props ) {
     const classes = useStyles();
 
     return(
         <div>
-            <Paper className={classes.card}>Making youtube video</Paper>
+            <Paper className={classes.card}>{card.content}</Paper>
         </div>
     )
 }

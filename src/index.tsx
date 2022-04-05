@@ -6,7 +6,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import List from "./components/List/List";
 import {createTheme, ThemeProvider} from "@mui/material";
 
 const theme = createTheme();
@@ -14,7 +13,7 @@ const theme = createTheme();
 ReactDOM.render(
     <div>
         <ThemeProvider theme={theme}>
-            <List/>
+            <App />
         </ThemeProvider>
     </div>,
     document.getElementById('root')
