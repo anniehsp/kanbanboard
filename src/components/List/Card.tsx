@@ -18,7 +18,7 @@ export default function Card({ card }: Props ) {
 
     return(
         <div>
-            <Paper className={classes.card}>{card.content}</Paper>
+            <Paper className={classes.card}>{card.title}</Paper>
         </div>
     )
 }

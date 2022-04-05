@@ -24,13 +24,20 @@ export default function List({ list }: Props) {
         <div>
             <Paper className={classes.root}>
                 <CssBaseline/>
-                <Title title={list.title} />
+                <Title
+                    title={list.title}
+                />
                 {
                     list.cards.map((card: any) => (
-                        <Card card={card} key={card.id} />
+                        <Card
+                            card={card}
+                            key={card.id}
+                        />
                     ))
                 }
-                <InputCard />
+                <InputCard
+                    listId={list.id}
+                />
             </Paper>
         </div>
     )

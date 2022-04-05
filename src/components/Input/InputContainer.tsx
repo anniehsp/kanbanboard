@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-export default function InputContainer() {
+interface Props {
+    listId: string;
+}
+
+export default function InputContainer({ listId }: Props) {
     const classes = useStyles();
 
     const [openNewCard, setOpenNewCard] = useState<boolean>(false);
@@ -28,6 +32,7 @@ export default function InputContainer() {
             <Collapse in={openNewCard}>
                 <InputCard
                     closeCard={setOpenNewCard}
+                    listId={listId}
                 />
             </Collapse>
             <Collapse in={!openNewCard}>
