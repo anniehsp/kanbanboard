@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         display: 'flex',
         minHeight: '100vh',
         background: 'green',
+        width: '100%',
+        overflowY: 'auto'
     },
 }));
 
