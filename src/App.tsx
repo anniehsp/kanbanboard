@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './App.css';
-import { createStyles, makeStyles } from '@mui/styles';
-import { Theme } from '@mui/material';
-import { v4 as uuid } from 'uuid';
+import {createStyles, makeStyles} from '@mui/styles';
+import {Theme} from '@mui/material';
+import {v4 as uuid} from 'uuid';
 
 import List from './components/List/List';
 import InputCard from './components/Input/InputContainer';
@@ -20,62 +20,77 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 function App() {
     const classes = useStyles();
 
-  const [data, setData] = useState<any>(Data);
+    const [data, setData] = useState<any>(Data);
 
-  const addMoreCard = (title: string, listId: string) => {
-      const newCardId = uuid();
-      const newCard = {
-        id: newCardId,
-        title,
-      };
+    const addMoreCard = (title: string, listId: string) => {
+        const newCardId = uuid();
+        const newCard = {
+            id: newCardId,
+            title,
+        };
 
-      const newList = data.lists[listId];
-      newList.cards = [...newList.cards, newCard];
+        const newList = data.lists[listId];
+        newList.cards = [...newList.cards, newCard];
 
-      const newData = {
-        ...data,
-        lists: {
-            ...data.lists,
-            [listId]: newList,
-        }
-      };
+        const newData = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: newList,
+            }
+        };
 
-      setData(newData);
-  };
+        setData(newData);
+    };
 
-  const addMoreList = (title: string) => {
-      const newListId = uuid();
-      const newList = {
-        id: newListId,
-        title,
-        cards: [],
-      };
+    const addMoreList = (title: string) => {
+        const newListId = uuid();
+        const newList = {
+            id: newListId,
+            title,
+            cards: [],
+        };
 
-      const newData = {
-          listIds: [...data.listIds, newListId],
-          lists: {
-            ...data.lists,
-            [newListId]: newList,
-          },
-      };
+        const newData = {
+            listIds: [...data.listIds, newListId],
+            lists: {
+                ...data.lists,
+                [newListId]: newList,
+            },
+        };
 
-      setData(newData);
-  };
+        setData(newData);
+    };
 
-  return(
-      // @ts-ignore
-      <StoreApi.Provider value={{ addMoreCard, addMoreList }}>
-        <div className={classes.root}>
-          {
-              data && data.listIds && data.listIds.map((listId: string) => {
-                const list = data.lists[listId];
-                return <List list={list} key={listId} />
-              })
-          }
-          <InputCard type="list" />
-        </div>
-      </StoreApi.Provider>
-  );
+    const updateListTitle = (title: string, listId: string) => {
+        const list = data.lists[listId];
+        list.title = title;
+
+        const newData = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list,
+            }
+        };
+
+        setData(newData);
+    }
+
+    return (
+        // @ts-ignore
+        <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
+            <div className={classes.root}>
+                {
+                    data && data.listIds && data.listIds.map((listId: string) => {
+                        const list = data.lists[listId];
+                        return <List list={list} key={listId}/>
+                    })
+                }
+                <InputCard type="list"/>
+            </div>
+        </StoreApi.Provider>
+    );
 }
 
 export default App;

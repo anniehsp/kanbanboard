@@ -1,13 +1,13 @@
 import React from 'react';
-import {CssBaseline, Paper, Theme} from '@mui/material';
-import {createStyles, makeStyles} from '@mui/styles';
+import { CssBaseline, Paper, Theme } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import InputCard from '../Input/InputContainer';
 import Title from './Title';
 import Card from './Card';
-import InputCard from '../Input/InputContainer';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
-        width: '300px',
+        minWidth: '300px',
         backgroundColor: '#EBECF0',
         marginLeft: theme.spacing(1),
     }
@@ -26,6 +26,7 @@ export default function List({ list }: Props) {
                 <CssBaseline/>
                 <Title
                     title={list.title}
+                    listId={list.id}
                 />
                 {
                     list.cards.map((card: any) => (

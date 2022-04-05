@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {Collapse, Paper, Theme, Typography} from '@mui/material';
-import {createStyles, makeStyles} from '@mui/styles';
-import {fade} from '@material-ui/core';
+import React, { useState } from 'react';
+import { Collapse, Paper, Theme, Typography } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { fade } from '@material-ui/core';
 import InputCard from './InputCard';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({

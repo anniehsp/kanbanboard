@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Button, IconButton, InputBase, Paper, Theme } from '@mui/material';
 import { Clear } from '@mui/icons-material';
 import { createStyles, makeStyles } from '@mui/styles';
-import { fade} from '@material-ui/core';
+import { fade } from '@material-ui/core';
 import storeApi from '../../utils/storeApi';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     card: {
         margin: theme.spacing(0, 1, 1, 1),
-        paddingBottom: theme.spacing()
+        paddingBottom: theme.spacing(),
     },
     input: {
       margin: theme.spacing(1),

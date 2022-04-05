@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {InputBase, Theme, Typography} from '@mui/material';
-import {createStyles, makeStyles} from '@mui/styles';
-import {MoreHoriz} from '@mui/icons-material';
+import React, {useContext, useState} from 'react';
+import { InputBase, Theme, Typography } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { MoreHoriz } from '@mui/icons-material';
+import storeApi from "../../utils/storeApi";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     editableTitleContainer: {
@@ -25,12 +26,26 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 interface Props {
     title: string;
+    listId: string;
 }
 
-export default function Title({ title }: Props) {
+export default function Title({ title, listId }: Props) {
     const [open, setOpen] = useState<boolean>(false);
+    const [newTitle, setNewTitle] = useState<string>(title);
 
+    // @ts-ignore
+    const { updateListTitle } = useContext(storeApi);
     const classes = useStyles();
+
+    const handleOnChange = (e: any) => {
+        setNewTitle(e.target.value);
+    };
+
+    const handleOnBlur = () => {
+      setOpen(!open);
+      setNewTitle(newTitle);
+      updateListTitle(newTitle, listId);
+    };
 
     return (
         <div>
@@ -43,8 +58,9 @@ export default function Title({ title }: Props) {
                                     className: classes.input,
                                 }}
                                 fullWidth
-                                onBlur={() => setOpen(!open)}
-                                value={title}
+                                onBlur={handleOnBlur}
+                                onChange={handleOnChange}
+                                value={newTitle}
                             />
                         </div>
                     ) : (
