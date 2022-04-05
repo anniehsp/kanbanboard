@@ -1,8 +1,8 @@
 import React from 'react';
-import {CssBaseline, Paper, Theme} from "@mui/material";
-import {createStyles, makeStyles} from "@mui/styles";
-import Title from "./Title";
-import Card from "./Card";
+import {CssBaseline, Paper, Theme} from '@mui/material';
+import {createStyles, makeStyles} from '@mui/styles';
+import Title from './Title';
+import Card from './Card';
 import InputCard from '../Input/InputContainer';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -37,6 +37,7 @@ export default function List({ list }: Props) {
                 }
                 <InputCard
                     listId={list.id}
+                    type="card"
                 />
             </Paper>
         </div>

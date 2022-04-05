@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react';
-import {Button, IconButton, InputBase, Paper, Theme} from "@mui/material";
-import {Clear} from "@mui/icons-material";
-import {createStyles, makeStyles} from "@mui/styles";
-import {fade} from "@material-ui/core";
-import storeApi from "../../utils/storeApi";
+import React, { useContext, useState } from 'react';
+import { Button, IconButton, InputBase, Paper, Theme } from '@mui/material';
+import { Clear } from '@mui/icons-material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { fade} from '@material-ui/core';
+import storeApi from '../../utils/storeApi';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     card: {
@@ -27,29 +27,31 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 interface Props {
     closeCard: (value: boolean) => void;
-    listId: string;
+    listId?: string;
+    type: string;
 }
 
-export default function InputCard({ closeCard, listId }: Props) {
+export default function InputCard({ closeCard, listId, type }: Props) {
     const classes = useStyles();
 
     // @ts-ignore
-    const { addMoreCard } = useContext(storeApi);
-    const [cardTitle, setCardTitle] = useState<string>('');
+    const { addMoreCard, addMoreList } = useContext(storeApi);
+    const [title, setTitle] = useState<string>('');
 
     const handleOnChange = (e: any) => {
-        setCardTitle(e.target.value);
+        setTitle(e.target.value);
     };
 
     const handleBtnConfirm = () => {
-        addMoreCard(cardTitle, listId);
-        setCardTitle('');
-        closeCard(false);
-    };
-
-    const handleOnBlur = () => {
-      setCardTitle('');
-      closeCard(false);
+        if (type === 'card') {
+            addMoreCard(title, listId);
+            setTitle('');
+            closeCard(false);
+        } else {
+            addMoreList(title);
+            setTitle('');
+            closeCard(false);
+        }
     };
 
     return (
@@ -63,10 +65,10 @@ export default function InputCard({ closeCard, listId }: Props) {
                     inputProps={{
                         className: classes.input,
                     }}
-                    placeholder="Enter a title of new card"
-                    onBlur={handleOnBlur}
+                    placeholder={ type === 'card' ? 'Enter a title of new card' : 'Enter a title of list' }
+                    onBlur={() => closeCard(false)}
                     onChange={handleOnChange}
-                    value={cardTitle}
+                    value={title}
                 />
             </Paper>
             </div>
@@ -75,7 +77,7 @@ export default function InputCard({ closeCard, listId }: Props) {
                     className={classes.btnConfirm}
                     onClick={handleBtnConfirm}
                 >
-                    Add Card
+                    { type === 'card' ? 'Add Card' : 'Add List' }
                 </Button>
                 <IconButton onClick={() => closeCard(false)}>
                     <Clear />

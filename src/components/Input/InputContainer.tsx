@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {Collapse, Paper, Theme, Typography} from "@mui/material";
-import {createStyles, makeStyles} from "@mui/styles";
-import {fade} from "@material-ui/core";
-import InputCard from "./InputCard";
+import {Collapse, Paper, Theme, Typography} from '@mui/material';
+import {createStyles, makeStyles} from '@mui/styles';
+import {fade} from '@material-ui/core';
+import InputCard from './InputCard';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
-      marginTop: theme.spacing(2),
+        width: '300px',
+        marginTop: theme.spacing(1),
     },
     addCard: {
         padding: theme.spacing(1, 1, 1, 2),
@@ -19,20 +20,22 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 interface Props {
-    listId: string;
+    listId?: string;
+    type: string;
 }
 
-export default function InputContainer({ listId }: Props) {
+export default function InputContainer({ listId, type }: Props) {
     const classes = useStyles();
 
     const [openNewCard, setOpenNewCard] = useState<boolean>(false);
 
-    return(
+    return (
         <div className={classes.root}>
             <Collapse in={openNewCard}>
                 <InputCard
                     closeCard={setOpenNewCard}
                     listId={listId}
+                    type={type}
                 />
             </Collapse>
             <Collapse in={!openNewCard}>
@@ -41,7 +44,7 @@ export default function InputContainer({ listId }: Props) {
                     elevation={0}
                     onClick={() => setOpenNewCard(!openNewCard)}
                 >
-                    <Typography>+ Add a card</Typography>
+                    <Typography>{ type === 'card' ? '+ Add a Card' : '+ Add another List'}</Typography>
                 </Paper>
             </Collapse>
         </div>
