@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import { createStyles, makeStyles } from '@mui/styles';
-import { Theme } from '@mui/material';
 import { v4 as uuid } from 'uuid';
-import {DragDropContext, DropResult, ResponderProvided} from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import List from './components/List/List';
 import InputCard from './components/Input/InputContainer';
 import Data from './utils/store';
 import StoreApi from './utils/storeApi';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles(() => createStyles({
     root: {
         display: 'flex',
         minHeight: '100vh',
@@ -80,7 +79,7 @@ function App() {
         setData(newData);
     }
 
-    const handleDragEnd = (result: DropResult, provided: ResponderProvided) => {
+    const handleDragEnd = (result: DropResult) => {
         const { destination, source, draggableId } = result;
 
         if(!destination) {
@@ -100,6 +99,20 @@ function App() {
                 lists: {
                     ...data.lists,
                     [sourceList.id] : destinationList,
+                },
+            };
+
+            setData(newData);
+        } else {
+            sourceList.cards.splice(source.index, 1);
+            destinationList.cards.splice(destination.index, 0, draggingCard);
+
+            const newData = {
+                ...data,
+                lists: {
+                    ...data.lists,
+                    [sourceList.id]: sourceList,
+                    [destinationList.id]: destinationList,
                 },
             };
 
