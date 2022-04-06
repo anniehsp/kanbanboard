@@ -4,7 +4,7 @@ import { createStyles, makeStyles } from '@mui/styles';
 import InputCard from '../Input/InputContainer';
 import Title from './Title';
 import Card from './Card';
-import {Droppable} from "react-beautiful-dnd";
+import {Draggable, Droppable} from "react-beautiful-dnd";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -19,46 +19,59 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 interface Props {
     list: any;
+    index: number;
 }
 
-export default function List({ list }: Props) {
+export default function List({ list, index }: Props) {
     const classes = useStyles();
 
     return (
-        <div>
-            <Paper className={classes.root}>
-                <CssBaseline/>
-                <Title
-                    title={list.title}
-                    listId={list.id}
-                />
-                <Droppable droppableId={list.id}>
-                    {
-                        (provided) => (
-                            <div
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                className={classes.cardContainer}
-                            >
+        <Draggable draggableId={list.id} index={index}>
+            {
+                (provided) => (
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                    >
+                        <Paper
+                            className={classes.root}
+                            {...provided.dragHandleProps}
+                        >
+                            <CssBaseline/>
+                            <Title
+                                title={list.title}
+                                listId={list.id}
+                            />
+                            <Droppable droppableId={list.id}>
                                 {
-                                    list.cards.map((card: any, index: number) => (
-                                        <Card
-                                            card={card}
-                                            key={card.id}
-                                            index={index}
-                                        />
-                                    ))
+                                    (provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                            className={classes.cardContainer}
+                                        >
+                                            {
+                                                list.cards.map((card: any, index: number) => (
+                                                    <Card
+                                                        card={card}
+                                                        key={card.id}
+                                                        index={index}
+                                                    />
+                                                ))
+                                            }
+                                            {provided.placeholder}
+                                        </div>
+                                    )
                                 }
-                                {provided.placeholder}
-                            </div>
-                        )
-                    }
-                </Droppable>
-                <InputCard
-                    listId={list.id}
-                    type="card"
-                />
-            </Paper>
-        </div>
-    )
+                            </Droppable>
+                            <InputCard
+                                listId={list.id}
+                                type="card"
+                            />
+                        </Paper>
+                    </div>
+                )
+            }
+        </Draggable>
+    );
 }
