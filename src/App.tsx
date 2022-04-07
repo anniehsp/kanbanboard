@@ -14,12 +14,13 @@ const useStyles = makeStyles(() => createStyles({
 function App() {
     const classes = useStyles();
 
-    const [backgroundImage, setBackgroundImage] = useState<string>('');
+    const [backgroundImage, setBackgroundImage] = useState<string>('green');
 
     return (
         <div
             className={classes.root}
             style={{
+                backgroundColor: backgroundImage,
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
