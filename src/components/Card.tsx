@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Theme } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
-import {Draggable} from "react-beautiful-dnd";
+import { Draggable } from 'react-beautiful-dnd';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     card: {

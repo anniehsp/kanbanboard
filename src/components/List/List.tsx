@@ -1,10 +1,11 @@
 import React from 'react';
 import { CssBaseline, Paper, Theme } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+
 import InputCard from '../Input/InputContainer';
+import Card from '../Card';
 import Title from './Title';
-import Card from './Card';
-import {Draggable, Droppable} from "react-beautiful-dnd";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
