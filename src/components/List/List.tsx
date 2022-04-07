@@ -21,9 +21,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 interface Props {
     list: any;
     index: number;
+    updateCard: (name: string, value: string, listId: string, cardId: string) => void;
 }
 
-export default function List({ list, index }: Props) {
+export default function List({ list, index, updateCard }: Props) {
     const classes = useStyles();
 
     return (
@@ -57,6 +58,7 @@ export default function List({ list, index }: Props) {
                                                         card={card}
                                                         key={card.id}
                                                         index={index}
+                                                        updateCard={updateCard}
                                                     />
                                                 ))
                                             }

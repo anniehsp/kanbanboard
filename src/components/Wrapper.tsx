@@ -75,6 +75,21 @@ function App() {
         };
 
         setData(newData);
+    };
+
+    const updateCard = (name: string, value: string, listId: string, cardId: string) => {
+        const list = data.lists[listId];
+        const card = list.cards.filter((card: any) => card.id === cardId);
+        card[name] = value;
+
+        console.log('check', card, list.cards);
+
+        const newData = {
+          ...data,
+            lists: {
+              ...data.lists,
+            }
+        };
     }
 
     const handleDragEnd = (result: DropResult) => {
@@ -144,7 +159,7 @@ function App() {
                                 {
                                     data && data.listIds && data.listIds.map((listId: string, index: number) => {
                                         const list = data.lists[listId];
-                                        return <List list={list} key={listId} index={index} />
+                                        return <List list={list} key={listId} index={index} updateCard={updateCard}/>
                                     })
                                 }
                                 <InputCard type="list"/>
