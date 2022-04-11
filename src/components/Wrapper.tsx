@@ -79,18 +79,35 @@ function App() {
 
     const updateCard = (name: string, value: string, listId: string, cardId: string) => {
         const list = data.lists[listId];
-        const card = list.cards.filter((card: any) => card.id === cardId);
-        card[name] = value;
+        const cardIndex = list.cards.findIndex((card: any) => card.id === cardId);
+        list.cards[cardIndex] = { ...list.cards[cardIndex], [name]: value };
 
-        console.log('check', card, list.cards);
+        const newData = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list,
+            }
+        };
+
+        setData(newData);
+    }
+
+    const deleteCard = (listId: string, cardId: string) => {
+        const list = data.lists[listId];
+        const cardIndex = list.cards.findIndex((card: any) => card.id === cardId);
+        list.cards.splice(cardIndex, 1);
 
         const newData = {
           ...data,
-            lists: {
+          lists: {
               ...data.lists,
-            }
+              [listId]: list,
+          }
         };
-    }
+
+        setData(newData);
+    };
 
     const handleDragEnd = (result: DropResult) => {
         const { destination, source, draggableId, type } = result;
@@ -142,7 +159,7 @@ function App() {
 
     return (
         // @ts-ignore
-        <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
+        <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, deleteCard, updateCard }}>
             <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable
                     droppableId="app"
@@ -159,7 +176,7 @@ function App() {
                                 {
                                     data && data.listIds && data.listIds.map((listId: string, index: number) => {
                                         const list = data.lists[listId];
-                                        return <List list={list} key={listId} index={index} updateCard={updateCard}/>
+                                        return <List list={list} key={listId} index={index} />
                                     })
                                 }
                                 <InputCard type="list"/>

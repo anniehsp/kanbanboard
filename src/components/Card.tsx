@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {Box, Button, Fade, Paper, TextField, Theme, Modal} from '@mui/material';
+import React, {useContext, useState} from 'react';
+import {Box, Button, Fade, Paper, TextField, Theme, Modal, Backdrop} from '@mui/material';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Draggable} from 'react-beautiful-dnd';
 import dayjs from 'dayjs';
 import {Delete} from '@mui/icons-material';
 import {DesktopDatePicker, LocalizationProvider} from '@mui/lab';
 import AdapterDayjs from '@mui/lab/AdapterDayjs';
+import storeApi from "../utils/storeApi";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     card: {
@@ -27,19 +28,26 @@ const style = {
 };
 
 interface Props {
+    listId: string;
     card: any;
     index: number;
-    updateCard: (name: string, value: string, listId: string, cardId: string) => void;
 }
 
-export default function Card({card, index, updateCard}: Props) {
+export default function Card({ listId, card, index }: Props) {
     const classes = useStyles();
 
     const [openModal, setOpenModal] = useState<boolean>(false);
 
-    const handleChangeDate = (e: any, name: string) => {
-        updateCard(name, e.target.value, index.toString(), card.id);
-        console.log('check e', e);
+    // @ts-ignore
+    const { deleteCard, updateCard } = useContext(storeApi);
+
+    const handleChangeData = (name: string, value: any) => {
+        updateCard(name, value, listId, card.id);
+    };
+
+    const handleDeleteCard = () => {
+        deleteCard(listId, card.id);
+        setOpenModal(false);
     };
 
     return (
@@ -66,27 +74,33 @@ export default function Card({card, index, updateCard}: Props) {
                 open={openModal}
                 onClose={() => setOpenModal(false)}
                 closeAfterTransition
-                // BackdropComoponent={Backdrop}
-                // BackdropProps={{
-                //     timeout: 500,
-                // }}
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
             >
                 <Fade in={openModal}>
                     <Box sx={style}>
+                        <TextField
+                            value={card.title}
+                            onChange={(e) => handleChangeData('title', e.target.value)}
+                            onBlur={() => setOpenModal(false)}
+                        />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
                                 label="Deadline"
-                                value={dayjs()}
+                                value={card.date? card.date : dayjs()}
                                 inputFormat="YYYY-MM-DD"
                                 mask="____-__-__"
                                 onChange={(newValue) => {
-                                    console.log('ne', newValue);
+                                    handleChangeData('date', dayjs(newValue))
                                 }}
+                                onClose={() => setOpenModal(false)}
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </LocalizationProvider>
-                        <Button>
-                            <Delete/>
+                        <Button onClick={handleDeleteCard}>
+                            <Delete />
                             Delete
                         </Button>
                     </Box>
