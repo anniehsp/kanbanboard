@@ -35,7 +35,7 @@ export default function Title({ title, listId }: Props) {
     const [showEditBox, setEditBoxVisibility] = useState<boolean>(false);
 
     // @ts-ignore
-    const { updateListTitle } = useContext(storeApi);
+    const { updateListTitle, deleteList } = useContext(storeApi);
     const classes = useStyles();
 
     const handleOnChange = (e: any) => {
@@ -46,6 +46,10 @@ export default function Title({ title, listId }: Props) {
       setOpen(!open);
       setNewTitle(newTitle);
       updateListTitle(newTitle, listId);
+    };
+
+    const handleDeleteList = () => {
+        deleteList(listId);
     };
 
     return (
@@ -87,7 +91,10 @@ export default function Title({ title, listId }: Props) {
                                         <Typography style={{ marginLeft: '5px' }}>Edit</Typography>
                                     </MenuItem>
                                     <Divider />
-                                    <MenuItem>
+                                    <MenuItem onClick={() => {
+                                        handleDeleteList();
+                                        setEditBoxVisibility(!showEditBox);
+                                    }}>
                                         <DeleteOutlined />
                                         <Typography style={{ marginLeft: "5px" }}>Delete</Typography>
                                     </MenuItem>

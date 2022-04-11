@@ -43,6 +43,39 @@ function App() {
         setData(newData);
     };
 
+    const updateCard = (name: string, value: string, listId: string, cardId: string) => {
+        const list = data.lists[listId];
+        const cardIndex = list.cards.findIndex((card: any) => card.id === cardId);
+        list.cards[cardIndex] = { ...list.cards[cardIndex], [name]: value };
+
+        const newData = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list,
+            }
+        };
+
+        setData(newData);
+    }
+
+    const deleteCard = (listId: string, cardId: string) => {
+        const list = data.lists[listId];
+        const cardIndex = list.cards.findIndex((card: any) => card.id === cardId);
+        list.cards.splice(cardIndex, 1);
+
+        const newData = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list,
+            }
+        };
+
+        setData(newData);
+    };
+
+
     const addMoreList = (title: string) => {
         const newListId = uuid();
         const newList = {
@@ -77,33 +110,15 @@ function App() {
         setData(newData);
     };
 
-    const updateCard = (name: string, value: string, listId: string, cardId: string) => {
-        const list = data.lists[listId];
-        const cardIndex = list.cards.findIndex((card: any) => card.id === cardId);
-        list.cards[cardIndex] = { ...list.cards[cardIndex], [name]: value };
+    const deleteList = (listId: string) => {
+        delete data.lists[listId];
+        const listIdIndex = data.listIds.findIndex((pListId: string) => pListId === listId);
+        data.listIds.splice(listIdIndex, 1);
 
         const newData = {
             ...data,
-            lists: {
-                ...data.lists,
-                [listId]: list,
-            }
-        };
-
-        setData(newData);
-    }
-
-    const deleteCard = (listId: string, cardId: string) => {
-        const list = data.lists[listId];
-        const cardIndex = list.cards.findIndex((card: any) => card.id === cardId);
-        list.cards.splice(cardIndex, 1);
-
-        const newData = {
-          ...data,
-          lists: {
-              ...data.lists,
-              [listId]: list,
-          }
+            lists: data.lists,
+            listIds: data.listIds,
         };
 
         setData(newData);
@@ -159,7 +174,7 @@ function App() {
 
     return (
         // @ts-ignore
-        <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, deleteCard, updateCard }}>
+        <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, deleteCard, updateCard, deleteList }}>
             <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable
                     droppableId="app"
